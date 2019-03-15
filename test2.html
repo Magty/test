@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <div id="app4">
+        <button v-on:click="startCount">开始倒计时</button>
+        <span data-count="60" v-count-down="count" v-if="show" style="font-size:16px;">60</span>
+    </div>
+    <script>
+        var app4 = new Vue({
+            el: '#app4',
+            data() {
+                return {
+                    show: false, // 是否显示倒计时
+                }
+            },
+            methods: {
+                startCount: function () {
+                    this.show = true
+                }
+            },
+            directives: {
+                'count-down': {
+                    bind: function (el, binding, vnode) {
+                        let count = parseInt(el.getAttribute('data-count'))
+                        if (this.timer) {
+                            clearInterval(this.timer)
+                            this.timer = null
+                        }
+                        // 大家可以推测下这里的 this 指什么？
+                        this.timer = setInterval(function () {
+                            if (count <= 0) {
+                                clearInterval(this.timer)
+                                this.timer = null
+                            } else {
+                                count--
+                                el.innerHTML = count
+                                el.setAttribute('data-count', count)
+                            }
+                        }, 1000)
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <button v-on:click="changeName">改变姓名</button>
+        <h2>{{ username }}</h2>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data() {
+                return {
+                    userinfo: {
+                        firstName: 'Yuga',
+                        lastName: 'Sun',
+                    },
+                    username: 'Yuga Sun'
+                }
+            },
+            watch: {
+                /* firstName: function (val, oldval) {
+                    this.username = val + ' ' + this.lastName;
+                },
+                lastName: function (val, oldval) {
+                    this.username = this.firstName + ' ' + val;
+                } */
+                /* userinfo: {
+                    deep: true,
+                    handler: function (val, oldval) {
+                        this.username = val.firstName + ' ' + val.lastName;
+                    }
+                } */
+                'userinfo.lastName': function (val, oldval) {
+                    this.username = this.userinfo.firstName + ' ' + val;
+                }
+            },
+            methods: {
+                changeName() {
+                    if (this.username == 'Yuga Sun') {
+                        //this.userinfo.firstName = 'Chaogang';
+                        this.userinfo.lastName = 'Gong';
+                    } else {
+                        //this.userinfo.firstName = 'Yuga';
+                        this.userinfo.lastName = 'Sun';
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
